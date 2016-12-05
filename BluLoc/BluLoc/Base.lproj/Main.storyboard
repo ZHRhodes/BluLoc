@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2327e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="tnJ-PH-YMd">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Settings-->
+        <scene sceneID="rZc-aR-aXH">
+            <objects>
+                <viewController id="hC9-d1-Iu9" customClass="MoreViewController" customModule="BluLoc" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Nbw-iG-ozC"/>
+                        <viewControllerLayoutGuide type="bottom" id="ERB-Q6-1ue"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="k4C-G2-UYI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="taP-1L-Hik">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="216" id="ga0-Td-17w"/>
+                                    <constraint firstAttribute="width" constant="375" id="h80-1A-Khu"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="hC9-d1-Iu9" id="psv-L6-RgB"/>
+                                    <outlet property="delegate" destination="hC9-d1-Iu9" id="uaW-86-6Hm"/>
+                                </connections>
+                            </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cui-RO-jYy">
+                                <frame key="frameInset" minX="113" minY="421" width="148" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Set To Location"/>
+                                <connections>
+                                    <action selector="setLocationButtonPress:" destination="hC9-d1-Iu9" eventType="touchUpInside" id="LRN-GC-cup"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="taP-1L-Hik" firstAttribute="leading" secondItem="k4C-G2-UYI" secondAttribute="leading" id="0BC-tg-7Ip"/>
+                            <constraint firstItem="taP-1L-Hik" firstAttribute="top" secondItem="Nbw-iG-ozC" secondAttribute="bottom" constant="205" id="KJe-rm-Gmh"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Settings" id="iar-CF-VHV">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-15"/>
+                    </tabBarItem>
+                    <connections>
+                        <outlet property="pickerView" destination="taP-1L-Hik" id="aTT-bQ-xwq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yo5-6C-W8x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-322.39999999999998" y="161.46926536731635"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="NCm-AR-Zl5">
+            <objects>
+                <tabBarController id="tnJ-PH-YMd" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="E8A-2J-KNL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="LRK-qz-oNr"/>
+                        <segue destination="hC9-d1-Iu9" kind="relationship" relationship="viewControllers" id="UYe-HF-io0"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vOO-Xc-8Zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1306" y="-207"/>
+        </scene>
+        <!--Map-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="BluLoc" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Map" id="poS-W3-zbo">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-15"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-322" y="-510"/>
+        </scene>
+    </scenes>
+</document>
