@@ -30,8 +30,11 @@ class MapViewController: UIViewController, UIScrollViewDelegate {
 	
 	let appDelegate = UIApplication.shared.delegate as! AppDelegate
 	
+	var beaconManager: BeaconManager!
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		beaconManager = BeaconManager(totalBeacons: 10)
 		suscribeToNotification()
 		setupView()
 		motionManager.deviceMotionUpdateInterval = 0.1
@@ -76,20 +79,31 @@ class MapViewController: UIViewController, UIScrollViewDelegate {
 	
 	func reloadBeaconData(_ newBeacons: [CLBeacon]){
 		beacons = appDelegate.beaconList
-//		print("---- PRINTING NEW BEACON DATA ----")
-//		for beacon in beacons{
-//			switch beacon.proximity {
-//			case CLProximity.far:
-//				print("major = \(beacon.major) minor = \(beacon.minor) is Far")
-//			case CLProximity.near:
-//				print("major = \(beacon.major) minor = \(beacon.minor) is Near")
-//			case CLProximity.immediate:
-//				print("major = \(beacon.major) minor = \(beacon.minor) is Immediate")
-//			case CLProximity.unknown:
-//				print("major = \(beacon.major) minor = \(beacon.minor) is Unknown")
-//			}
-//			
-//		}
+		var beaconData: [(Int, Int)] = []
+		for b in beacons {
+			if let id = Locations.getId(major: Int(b.major)){
+				beaconData.append((b.rssi, id))
+			}
+		}
+		
+		if let newLocation = beaconManager.updateState(bData: beaconData){
+			setUserLocation(location: newLocation)
+			print("resetting to new location \(newLocation)")
+		}
+		print("---- PRINTING NEW BEACON DATA ----")
+		for beacon in beacons{
+			switch beacon.proximity {
+			case CLProximity.far:
+				print("major = \(beacon.major) minor = \(beacon.rssi) is Far")
+			case CLProximity.near:
+				print("major = \(beacon.major) minor = \(beacon.rssi) is Near")
+			case CLProximity.immediate:
+				print("major = \(beacon.major) minor = \(beacon.rssi) is Immediate")
+			case CLProximity.unknown:
+				print("major = \(beacon.major) minor = \(beacon.rssi) is Unknown")
+			}
+			
+		}
 	}
 	
 	func addUserToMap(withLocation location: Location){
@@ -108,12 +122,15 @@ class MapViewController: UIViewController, UIScrollViewDelegate {
 		}
 	}
 	
+	func setUserLocation(location: Locations){
+		setUserLocation(x: location.location().x, y: location.location().y)
+	}
+	
 	func setUserLocation(x: Int, y: Int){
 		userDot.frame = CGRect(x: CGFloat(x), y: CGFloat(y), width: userDot.frame.width, height: userDot.frame.height)
 	}
 	
 	func updateUserLocation(_ deltaX: Double, _ deltaY: Double){
-		print(deltaX, deltaY)
 		let newX = Double(userDot.frame.minX) + deltaX
 		let newY = Double(userDot.frame.minY) + deltaY
 		setUserLocation(x: Int(newX), y: Int(newY))
@@ -161,9 +178,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate {
 	}
 
 	func takeStep(){
-		print("step taken")
 		let attitude = motionManager.deviceMotion?.attitude
-		print(attitude?.yaw)
 		let deltaX = mapScaleFactor * stepLength * cos((attitude?.yaw)!)
 		let deltaY = -mapScaleFactor * stepLength * sin((attitude?.yaw)!)
 		updateUserLocation(deltaX, deltaY)
