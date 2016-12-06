@@ -48,6 +48,19 @@ int BeaconState [15] = {
 // Array to indicate if position needs to reset to beacon location
 int NeedReset [15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
+// Update RSSI, obtain ID values using Majors/Minors of the Beacons
+void updateRSSI(int RSSI [], int ID [])
+{
+    int temp = 0;
+    for (int i=0; i<RSSI.size(); i++)
+    {
+        BeaconRSSI[ID[i]][4] = BeaconRSSI[ID[i]][3];
+        BeaconRSSI[ID[i]][3] = BeaconRSSI[ID[i]][2];
+        BeaconRSSI[ID[i]][2] = BeaconRSSI[ID[i]][1];
+        BeaconRSSI[ID[i]][1] = BeaconRSSI[ID[i]][0];
+        BeaconRSSI[ID[i]][0] = RSSI[i];
+    }
+}
 
 // Might want to update the following pieces of detecting curve types to suit the experimental data
 bool isPeak(int RSSI[5])
