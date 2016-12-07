@@ -11,7 +11,7 @@
 
 // New values are added to index 0 and old index 4 value is dicarded
 
-int BeaconRSSI [16][5] = {
+int BeaconRSSI [15][5] = {
     {INT_MIN,INT_MIN,INT_MIN,INT_MIN,INT_MIN},
     {INT_MIN,INT_MIN,INT_MIN,INT_MIN,INT_MIN},
     {INT_MIN,INT_MIN,INT_MIN,INT_MIN,INT_MIN},
@@ -129,7 +129,7 @@ void updateStates()
             break;
 
             case JUST_LEFT:
-                if ((i>0 && i<14 && (BeaconState[i+1]==JUST_LEFT || BeaconState[i-1]==JUST_LEFT)) || (i==0 && BeaconState[i+1]==JUST_LEFT) || (i==14 && BeaconState[i-1]==JUST_LEFT))
+                if (((i>0 && i<14 && (BeaconState[i+1]==JUST_LEFT || BeaconState[i-1]==JUST_LEFT)) || (i==0 && BeaconState[i+1]==JUST_LEFT) || (i==14 && BeaconState[i-1]==JUST_LEFT)) && isDecreasing(BeaconRSSI[i]))
                 {
                     BeaconState[i] = NEIGHBOR;
                 }

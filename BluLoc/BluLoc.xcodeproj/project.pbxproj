@@ -20,6 +20,7 @@
 		1471ADFF1DF2D61C006852AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1471ADFD1DF2D61C006852AD /* LaunchScreen.storyboard */; };
 		1471AE071DF2D7AF006852AD /* ECEBLevel2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1471AE061DF2D7AF006852AD /* ECEBLevel2.png */; };
 		148455861DF2E1DD00024A1A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148455851DF2E1DD00024A1A /* CoreLocation.framework */; };
+		D3C2D1691DF7484900CD96AD /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C2D1681DF7484900CD96AD /* BeaconManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		1471AE001DF2D61C006852AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1471AE061DF2D7AF006852AD /* ECEBLevel2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ECEBLevel2.png; sourceTree = "<group>"; };
 		148455851DF2E1DD00024A1A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		D3C2D1681DF7484900CD96AD /* BeaconManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				1471ADF41DF2D61C006852AD /* AppDelegate.swift */,
 				1471ADF61DF2D61C006852AD /* MapViewController.swift */,
 				145D82A71DF448CB003A3B31 /* MoreViewController.swift */,
+				D3C2D1681DF7484900CD96AD /* BeaconManager.swift */,
 				145D829F1DF417FF003A3B31 /* MapBeacon.swift */,
 				145D82A11DF41A35003A3B31 /* Locations.swift */,
 				145D82A91DF46AF1003A3B31 /* Float+RoundToPlaces.swift */,
@@ -124,12 +127,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = zhrhode2;
 				TargetAttributes = {
 					1471ADF01DF2D61C006852AD = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = A34Z338JKJ;
+						DevelopmentTeam = WUZ75YU9B9;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -184,6 +187,7 @@
 				145D82A21DF41A35003A3B31 /* Locations.swift in Sources */,
 				145D82AA1DF46AF1003A3B31 /* Float+RoundToPlaces.swift in Sources */,
 				145D82A01DF417FF003A3B31 /* MapBeacon.swift in Sources */,
+				D3C2D1691DF7484900CD96AD /* BeaconManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +231,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -276,6 +281,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -304,10 +310,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = A34Z338JKJ;
+				DEVELOPMENT_TEAM = WUZ75YU9B9;
 				INFOPLIST_FILE = BluLoc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.BluLoc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pujandave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -317,10 +323,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = A34Z338JKJ;
+				DEVELOPMENT_TEAM = WUZ75YU9B9;
 				INFOPLIST_FILE = BluLoc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.BluLoc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pujandave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

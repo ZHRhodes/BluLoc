@@ -49,7 +49,7 @@ extension Locations {
 		case .room_2013:
 			return Location(x: 1360, y: 2230, major: 58327, minor: 23618, id: 1)//(1360,2230) //15
 		case .room_2008:
-			return Location(x: 1875, y: 2015, major: 48125, minor: 15238, id: 2)//(1875,2015) //16
+			return Location(x: 1875, y: 2015, major: 18162, minor: 49481, id: 2)//(1875,2015) //16
 		case .room_1000Window:
 			return Location(x: 1695, y: 1520, major: 58099, minor: 58863, id: 3)//(1695,1520) //17
 		case .room_atriumStairs:
@@ -74,7 +74,7 @@ extension Locations {
 			return 0
 		case 58327:
 			return 1
-		case 48125:
+		case 18162:
 			return 2
 		case 58099:
 			return 3
@@ -101,23 +101,23 @@ extension Locations {
 			case 0:
 				return .room_2017
 			case 1:
-				return .room_2017
+				return .room_2013
 			case 2:
-				return .room_2017
+				return .room_2008
 			case 3:
-				return .room_2017
+				return .room_1000Window
 			case 4:
-				return .room_2017
+				return .room_atriumStairs
 			case 5:
-				return .room_2017
+				return .room_2036
 			case 6:
-				return .room_2017
+				return .room_2076
 			case 7:
-				return .room_2017
+				return .room_stair2
 			case 8:
-				return .room_2017
+				return .room_openLab
 			case 9:
-				return .room_2017
+				return .room_stair3
 			default:
 				return nil
 			}

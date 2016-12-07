@@ -19,7 +19,7 @@ enum BeaconState: Int {
 class BeaconManager {
 	
 	var totalBeacons: Int!
-	let RSSI_Min = 0 //what is this?
+	let RSSI_Min = -1000 //what is this?
 	var beaconRSSI: [(Int,Int,Int,Int,Int)] = []
 	var beaconState: [BeaconState] = []
 	var needReset: [Int] = []
@@ -46,7 +46,8 @@ class BeaconManager {
 	}
 	
 	func isPeak(RSSI: (Int,Int,Int,Int,Int))->Bool {
-		if (RSSI.0 < RSSI.1 && RSSI.1 < RSSI.2 && RSSI.2 > RSSI.3 && RSSI.3 > RSSI.4){
+//		if (RSSI.0 < RSSI.1 && RSSI.1 < RSSI.2 && RSSI.2 > RSSI.3 && RSSI.3 > RSSI.4){
+        if (RSSI.0 < RSSI.2 && RSSI.2 > RSSI.4 && RSSI.2 > -90){
 			return true;
 		}else{
 			return false;
@@ -54,7 +55,8 @@ class BeaconManager {
 	}
 	
 	func isIncreasing(RSSI: (Int,Int,Int,Int,Int))->Bool{
-		if (RSSI.0 > RSSI.1 && RSSI.1 > RSSI.2 && RSSI.2 > RSSI.3 && RSSI.3 > RSSI.4){
+//		if (RSSI.0 > RSSI.1 && RSSI.1 > RSSI.2 && RSSI.2 > RSSI.3 && RSSI.3 > RSSI.4){
+        if (RSSI.0  > RSSI.2 && RSSI.2 > RSSI.4){
 			return true;
 		}else{
 			return false;
@@ -62,7 +64,8 @@ class BeaconManager {
 	}
 	
 	func isDecreasing(RSSI: (Int,Int,Int,Int,Int))->Bool{
-		if (RSSI.0 < RSSI.1 && RSSI.1 < RSSI.2 && RSSI.2 < RSSI.3 && RSSI.3 < RSSI.4){
+//		if (RSSI.0 < RSSI.1 && RSSI.1 < RSSI.2 && RSSI.2 < RSSI.3 && RSSI.3 < RSSI.4){
+        if ((RSSI.0 < RSSI.2 && RSSI.2 < RSSI.4) || RSSI.2 < -90){
 			return true;
 		}else{
 			return false;
@@ -101,12 +104,12 @@ class BeaconManager {
 					needReset[i] = 1
 				}else if(beaconRSSI[i].0 == RSSI_Min){
 					beaconState[i] = .NOT_FOUND
-				}else if ((i>0 && i<14 && (beaconState[i+1] == .JUST_LEFT || beaconState[i-1] == .JUST_LEFT)) || (i==0 && beaconState[i+1] == .JUST_LEFT) || (i==14 && beaconState[i-1] == .JUST_LEFT)){
+				}else if ((i>0 && i<9 && i != 7 && i != 8 && (beaconState[i+1] == .JUST_LEFT || beaconState[i-1] == .JUST_LEFT)) || (i==0 && beaconState[i+1] == .JUST_LEFT) || (i==9 && beaconState[i-1] == .JUST_LEFT) || (i==4 && beaconState[6] == .JUST_LEFT) || (i==5 && beaconState[8] == .JUST_LEFT) || (i==8 && beaconState[5] == .JUST_LEFT) || (i==6 && beaconState[4] == .JUST_LEFT) || (i==7 && beaconState[6] == .JUST_LEFT) || (i==8 && beaconState[9] == .JUST_LEFT)){
 					beaconState[i] = .NEIGHBOR
 				}
 				break;
 			case .JUST_LEFT:
-				if ((i>0 && i<14 && (beaconState[i+1] == .JUST_LEFT || beaconState[i-1] == .JUST_LEFT)) || (i==0 && beaconState[i+1] == .JUST_LEFT) || (i==14 && beaconState[i-1] == .JUST_LEFT))
+				if ((i>0 && i<9 && i != 8 && i != 7 && i != 6 && i != 5 && i != 4 && (beaconState[i+1] == .JUST_LEFT || beaconState[i-1] == .JUST_LEFT)) || (i==0 && beaconState[i+1] == .JUST_LEFT) || (i==9 && beaconState[i-1] == .JUST_LEFT) || (i == 7 && beaconState[6] == .JUST_LEFT) || (i == 6 && (beaconState[5] == .JUST_LEFT || beaconState[4] == .JUST_LEFT || beaconState[7] == .JUST_LEFT)) || (i == 5 && (beaconState[4] == .JUST_LEFT || beaconState[6] == .JUST_LEFT || beaconState[8] == .JUST_LEFT)) || (i == 4 && (beaconState[3] == .JUST_LEFT || beaconState[5] == .JUST_LEFT || beaconState[6] == .JUST_LEFT)) || (i == 8 && (beaconState[5] == .JUST_LEFT || beaconState[9] == .JUST_LEFT)))
 				{
 					beaconState[i] = .NEIGHBOR
 				}
@@ -114,7 +117,7 @@ class BeaconManager {
 				break;
 			case .NEIGHBOR:
 				if (isPeak(RSSI: beaconRSSI[i])){
-					if (i==14){
+					if (i==9){
 						if (beaconState[i-1] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[i-1]))
 						{
 							beaconState[i] = .JUST_LEFT
@@ -129,6 +132,44 @@ class BeaconManager {
 							needReset[i] = 1
 						}
 					}
+                    else if (i==7) {
+                        if ((beaconState[6] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[6])))
+                        {
+                            beaconState[i] = .JUST_LEFT
+                            needReset[i] = 1
+                        }
+                    }
+                    else if (i==4)
+                    {
+                        if ((beaconState[6] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[6])) || (beaconState[5] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[5])) || (beaconState[3] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[3])))
+                        {
+                            beaconState[i] = .JUST_LEFT
+                            needReset[i] = 1
+                        }
+                    }
+                    else if (i==5)
+                    {
+                        if((beaconState[6] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[6])) || (beaconState[8] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[8])) || (beaconState[4] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[4])))
+                        {
+                            beaconState[i] = .JUST_LEFT
+                            needReset[i] = 1
+                        }
+                    }
+                    else if(i==6)
+                    {
+                        if((beaconState[7] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[7])) || (beaconState[8] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[8])) || (beaconState[4] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[4])))
+                        {
+                            beaconState[i] = .JUST_LEFT
+                            needReset[i] = 1
+                        }
+                    }
+                    else if (i==2){
+                        if(beaconRSSI[i].2 > -65 && ((beaconState[i-1] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[i-1])) || (beaconState[i+1] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[i+1]))))
+                        {
+                            beaconState[i] = .JUST_LEFT
+                            needReset[i] = 1
+                        }
+                    }
 					else if (beaconState[i-1] == .JUST_LEFT && isDecreasing(RSSI: beaconRSSI[i-1]))
 					{
 						beaconState[i] = .JUST_LEFT
@@ -140,7 +181,7 @@ class BeaconManager {
 						needReset[i] = 1
 					}
 				}
-				else if ((i>0 && i<14 && (beaconState[i+1] != .JUST_LEFT && beaconState[i-1] != .JUST_LEFT)) || (i==0 && beaconState[i+1] != .JUST_LEFT) || (i==14 && beaconState[i-1] != .JUST_LEFT)){
+				else if ((i>0 && i<9 && i != 7 && i != 8 && i != 4 && i != 5 && i != 6 && beaconState[i+1] != .JUST_LEFT && beaconState[i-1] != .JUST_LEFT) || (i==0 && beaconState[i+1] != .JUST_LEFT) || (i==9 && beaconState[i-1] != .JUST_LEFT) || (i==4 && beaconState[6] != .JUST_LEFT && beaconState[5] != .JUST_LEFT && beaconState[3] != .JUST_LEFT) || (i==7 && beaconState[6] != .JUST_LEFT) || (i==6 && beaconState[4] != .JUST_LEFT && beaconState[5] != .JUST_LEFT && beaconState[7] != .JUST_LEFT) || (i==5 && beaconState[8] != .JUST_LEFT && beaconState[6] != .JUST_LEFT && beaconState[4] != .JUST_LEFT) || (i==8 && beaconState[5] != .JUST_LEFT && beaconState[9] != .JUST_LEFT)){
 					beaconState[i] = .FOUND;
 				}
 				break;
@@ -148,6 +189,8 @@ class BeaconManager {
 		}
 		print("\(beaconRSSI)\n")
 		print("\(beaconState)\n")
+        print("\(needReset)\n")
+        print(Locations.getLocation(id: doesNeedReset()))
 
 		return Locations.getLocation(id: doesNeedReset())
 	}
