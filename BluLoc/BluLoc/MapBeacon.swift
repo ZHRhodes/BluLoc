@@ -11,11 +11,19 @@ import UIKit
 
 class MapBeacon : UIButton {
 	var location: Location!
+	private var proxLabel: UILabel!
 	
 	init(_ location: Location){
-		super.init(frame: CGRect(x: location.x, y: location.y, width: 100, height: 100))
+		super.init(frame: CGRect(x: location.immPt.x, y: location.immPt.y, width: 100, height: 100))
+		proxLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 25))
+		proxLabel.backgroundColor = UIColor.gray
+		addSubview(proxLabel)
 		self.location = location
 		self.setBackgroundImage(UIImage(named: "beacon1.png"), for: .normal)
+	}
+	
+	func setLabel(prox:String){
+		proxLabel.text = prox
 	}
 	
 	required init?(coder aDecoder: NSCoder) {

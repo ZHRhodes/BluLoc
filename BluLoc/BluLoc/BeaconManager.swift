@@ -187,10 +187,10 @@ class BeaconManager {
 				break;
 			}
 		}
-		print("\(beaconRSSI)\n")
-		print("\(beaconState)\n")
-        print("\(needReset)\n")
-        print(Locations.getLocation(id: doesNeedReset()))
+//		print("\(beaconRSSI)\n")
+//		print("\(beaconState)\n")
+//        print("\(needReset)\n")
+//        print(Locations.getLocation(id: doesNeedReset()))
 
 		return Locations.getLocation(id: doesNeedReset())
 	}

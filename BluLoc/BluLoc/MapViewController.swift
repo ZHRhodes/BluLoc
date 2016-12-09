@@ -17,20 +17,31 @@ class MapViewController: UIViewController, UIScrollViewDelegate {
 	var totalRotation:Float = 0.0
 	var accelMagData: [Double] = [Double]()
 	var gyroMagData: [Double] = [Double]()
-	let stepLength:Double = 0.679958
-	let mapScaleFactor = 35.0
+
 	
 	var scrollView: UIScrollView!
 	var floorplanView: UIImageView!
 	
-	var allBeacons: [MapBeacon] = []
+	var mapBeacons: [MapBeacon] = []
 	var beacons: [CLBeacon] = []
 	
-	var userDot: UIButton!
+	var userDot: UserDot!
 	
 	let appDelegate = UIApplication.shared.delegate as! AppDelegate
 	
 	var beaconManager: BeaconManager!
+	
+	var locationCSV: LocationCSV?
+	
+	var yaw: Double {
+		get{
+			if let attitude = motionManager.deviceMotion?.attitude{
+				return attitude.yaw
+			}else{
+				return 0
+			}
+		}
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -42,6 +53,8 @@ class MapViewController: UIViewController, UIScrollViewDelegate {
 		motionManager.startAccelerometerUpdates()
 		motionManager.startGyroUpdates()
 
+		locationCSV = LocationCSV()
+		
 		_ = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSteps), userInfo: nil, repeats: true)
 	}
 	
@@ -65,7 +78,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate {
 		scrollView.zoomScale = 0.3
 		
 		addBeaconsToMap(withLocationSet: Locations.allLocations)
-		addUserToMap(withLocation: Locations.room_2017.location())
+		userDot = UserDot(Locations.room_2017.location(), floorplanView)
 		scrollView.addSubview(floorplanView)
 		view.addSubview(scrollView)
 	}
@@ -73,6 +86,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate {
 	func addBeaconsToMap(withLocationSet beaconLocations: [Locations]){
 		for location in beaconLocations {
 			let newBeacon = MapBeacon(location.location())
+			mapBeacons.append(newBeacon)
 			floorplanView.addSubview(newBeacon)
 		}
 	}
@@ -80,36 +94,67 @@ class MapViewController: UIViewController, UIScrollViewDelegate {
 	func reloadBeaconData(_ newBeacons: [CLBeacon]){
 		beacons = appDelegate.beaconList
 		var beaconData: [(Int, Int)] = []
+		var rangeData: [(title1:String, name:String,title2:String,(x:Int,y:Int),title3:String,proximity:String,title4:String,rssi:Int,title5:String,accuracy:Double)] = []
 		for b in beacons {
 			if let id = Locations.getId(major: Int(b.major)){
 				beaconData.append((b.rssi, id))
 			}
+			if let location = Locations.getLocation(id: Locations.getId(major: Int(b.major))){
+				if b.proximity == CLProximity.immediate{
+					if(b.accuracy < 3){
+						userDot.setUserLocation(location)
+						print("resetting for immediate!")
+					}
+				}
+				rangeData.append(("Name:",location.rawValue,"(x,y):",(Int(userDot.frame.minX), Int(userDot.frame.minY)),"Proximity:",getProximityString(b.proximity),"RSSI:",b.rssi,"Accuracy",b.accuracy))
+				let _ = locationCSV?.appendRow(items: [location.rawValue,String(userDot.distance(from: CGPoint(x: location.location().immPt.x,y: location.location().immPt.y))),String(b.rssi),String(b.accuracy)])
+				
+				let dotDist = userDot.distance(from: CGPoint(x: location.location().immPt.x, y: location.location().immPt.y))
+				for mb in mapBeacons { //this shouldn't be in here?
+					if mb.location.id == Locations.getId(major: Int(b.major)){
+						mb.setLabel(prox: "\(dotDist) \(getProximityString(b.proximity)) \(String(b.rssi)) \(String(b.accuracy))")
+					}
+				}
+			}
 		}
 		
 		if let newLocation = beaconManager.updateState(bData: beaconData){
-			setUserLocation(location: newLocation)
+			userDot.setUserLocation(loc: newLocation.location().immPt)
 			print("resetting to new location \(newLocation)")
 		}
-		print("---- PRINTING NEW BEACON DATA ----")
-		for beacon in beacons{
-			switch beacon.proximity {
-			case CLProximity.far:
-				print("major = \(beacon.major) minor = \(beacon.rssi) is Far")
-			case CLProximity.near:
-				print("major = \(beacon.major) minor = \(beacon.rssi) is Near")
-			case CLProximity.immediate:
-				print("major = \(beacon.major) minor = \(beacon.rssi) is Immediate")
-			case CLProximity.unknown:
-				print("major = \(beacon.major) minor = \(beacon.rssi) is Unknown")
-			}
-			
-		}
+		
+		//for row in rangeData {
+			//print("\(row)\n")
+		//}
+		
+//		print("---- PRINTING NEW BEACON DATA ----")
+//		for beacon in beacons{
+//			switch beacon.proximity {
+//			case CLProximity.far:
+//				print("major = \(beacon.major) minor = \(beacon.rssi) is Far")
+//			case CLProximity.near:
+//				print("major = \(beacon.major) minor = \(beacon.rssi) is Near")
+//			case CLProximity.immediate:
+//				print("major = \(beacon.major) minor = \(beacon.rssi) is Immediate")
+//			case CLProximity.unknown:
+//				print("major = \(beacon.major) minor = \(beacon.rssi) is Unknown")
+//			}
+//			
+//		}
+		
 	}
 	
-	func addUserToMap(withLocation location: Location){
-		userDot = UIButton(frame: CGRect(x: location.x, y: location.y, width: 100, height: 100))
-		userDot.setBackgroundImage(UIImage(named: "userDot.png"), for: .normal)
-		floorplanView.addSubview(userDot)
+	func getProximityString(_ prox:CLProximity)->String{
+		switch(prox){
+		case CLProximity.far:
+			return "FAR"
+		case CLProximity.near:
+			return "NEAR"
+		case CLProximity.immediate:
+			return "IMMEDIATE"
+		case CLProximity.unknown:
+			return "UNKNOWN"
+		}
 	}
 	
 	func moveUserLocation(_ notification : NSNotification){
@@ -117,23 +162,10 @@ class MapViewController: UIViewController, UIScrollViewDelegate {
 		motionManager.startDeviceMotionUpdates()
 		if let dict = notification.userInfo{
 			if let loc = Locations(rawValue: dict["location"] as! String){
-				setUserLocation(x: loc.location().x, y: loc.location().y)
+				userDot.setUserLocation(loc)
+				locationCSV?.exportData()
 			}
 		}
-	}
-	
-	func setUserLocation(location: Locations){
-		setUserLocation(x: location.location().x, y: location.location().y)
-	}
-	
-	func setUserLocation(x: Int, y: Int){
-		userDot.frame = CGRect(x: CGFloat(x), y: CGFloat(y), width: userDot.frame.width, height: userDot.frame.height)
-	}
-	
-	func updateUserLocation(_ deltaX: Double, _ deltaY: Double){
-		let newX = Double(userDot.frame.minX) + deltaX
-		let newY = Double(userDot.frame.minY) + deltaY
-		setUserLocation(x: Int(newX), y: Int(newY))
 	}
 	
 	func updateSteps(){
@@ -176,12 +208,47 @@ class MapViewController: UIViewController, UIScrollViewDelegate {
 			gyroMagData.removeAll()
 		}
 	}
-
+	
 	func takeStep(){
-		let attitude = motionManager.deviceMotion?.attitude
-		let deltaX = mapScaleFactor * stepLength * cos((attitude?.yaw)!)
-		let deltaY = -mapScaleFactor * stepLength * sin((attitude?.yaw)!)
-		updateUserLocation(deltaX, deltaY)
+//		for b in beacons {
+//			if let location = Locations.getLocation(id: Locations.getId(major: Int(b.major))){
+//				let dotDist = userDot.distance(from: CGPoint(x: location.location().immPt.x, y: location.location().immPt.y))
+//				switch b.proximity {
+//				case CLProximity.immediate:
+//					//setUserLocation(location: location)
+//					//print("resetting for immediate!")
+//					return
+//				case CLProximity.near:
+//					if(b.accuracy > 2.4){
+//						break
+//					}
+//					if(dotDist > location.location().radius.R_far){
+//						setUserLocation(location: location)
+//						return
+//					}
+//					if dotDist > location.location().radius.R_near {
+//						userDot.takeStep(towards: location.location(), yaw: yaw, accuracy: b.accuracy)
+//						print("adjusting for near!")
+//						return
+//					}
+//				break
+//				case CLProximity.far:
+////					if(b.accuracy > 10){
+////						break
+////					}
+////					if dotDist > location.location().radius.R_far {
+////						userDot.takeStep(towards: location.location(), yaw: yaw, accuracy: b.accuracy)
+////						print("adjusting for near!")
+////						return
+////					}
+//					break
+//					
+//				case CLProximity.unknown:
+//					break
+//				}
+//			}
+//		}
+		userDot.takeStep(angle: yaw, customStepLength: nil)
 	}
 	
 	func viewForZooming(in scrollView: UIScrollView) -> UIView? {

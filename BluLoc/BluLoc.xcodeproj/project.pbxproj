@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1456A4DE1DF9B5D300190EF1 /* Date+FormatForCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1456A4DD1DF9B5D300190EF1 /* Date+FormatForCSV.swift */; };
+		1456A4E01DFA209600190EF1 /* UserDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1456A4DF1DFA209600190EF1 /* UserDot.swift */; };
 		145D82A01DF417FF003A3B31 /* MapBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145D829F1DF417FF003A3B31 /* MapBeacon.swift */; };
 		145D82A21DF41A35003A3B31 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145D82A11DF41A35003A3B31 /* Locations.swift */; };
 		145D82A41DF41DB7003A3B31 /* beacon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 145D82A31DF41DB7003A3B31 /* beacon1.png */; };
@@ -20,10 +22,13 @@
 		1471ADFF1DF2D61C006852AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1471ADFD1DF2D61C006852AD /* LaunchScreen.storyboard */; };
 		1471AE071DF2D7AF006852AD /* ECEBLevel2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1471AE061DF2D7AF006852AD /* ECEBLevel2.png */; };
 		148455861DF2E1DD00024A1A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148455851DF2E1DD00024A1A /* CoreLocation.framework */; };
+		14B18A7E1DF90FCC00F935F8 /* LocationCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B18A7D1DF90FCC00F935F8 /* LocationCSV.swift */; };
 		D3C2D1691DF7484900CD96AD /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C2D1681DF7484900CD96AD /* BeaconManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1456A4DD1DF9B5D300190EF1 /* Date+FormatForCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+FormatForCSV.swift"; sourceTree = "<group>"; };
+		1456A4DF1DFA209600190EF1 /* UserDot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDot.swift; sourceTree = "<group>"; };
 		145D829F1DF417FF003A3B31 /* MapBeacon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapBeacon.swift; sourceTree = "<group>"; };
 		145D82A11DF41A35003A3B31 /* Locations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
 		145D82A31DF41DB7003A3B31 /* beacon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beacon1.png; sourceTree = "<group>"; };
@@ -39,6 +44,7 @@
 		1471AE001DF2D61C006852AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1471AE061DF2D7AF006852AD /* ECEBLevel2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ECEBLevel2.png; sourceTree = "<group>"; };
 		148455851DF2E1DD00024A1A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		14B18A7D1DF90FCC00F935F8 /* LocationCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCSV.swift; sourceTree = "<group>"; };
 		D3C2D1681DF7484900CD96AD /* BeaconManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,8 +82,11 @@
 			children = (
 				1471ADF41DF2D61C006852AD /* AppDelegate.swift */,
 				1471ADF61DF2D61C006852AD /* MapViewController.swift */,
+				1456A4DF1DFA209600190EF1 /* UserDot.swift */,
 				145D82A71DF448CB003A3B31 /* MoreViewController.swift */,
 				D3C2D1681DF7484900CD96AD /* BeaconManager.swift */,
+				14B18A7D1DF90FCC00F935F8 /* LocationCSV.swift */,
+				1456A4DD1DF9B5D300190EF1 /* Date+FormatForCSV.swift */,
 				145D829F1DF417FF003A3B31 /* MapBeacon.swift */,
 				145D82A11DF41A35003A3B31 /* Locations.swift */,
 				145D82A91DF46AF1003A3B31 /* Float+RoundToPlaces.swift */,
@@ -132,7 +141,7 @@
 				TargetAttributes = {
 					1471ADF01DF2D61C006852AD = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = WUZ75YU9B9;
+						DevelopmentTeam = A34Z338JKJ;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -182,7 +191,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				145D82A81DF448CB003A3B31 /* MoreViewController.swift in Sources */,
+				14B18A7E1DF90FCC00F935F8 /* LocationCSV.swift in Sources */,
+				1456A4DE1DF9B5D300190EF1 /* Date+FormatForCSV.swift in Sources */,
 				1471ADF71DF2D61C006852AD /* MapViewController.swift in Sources */,
+				1456A4E01DFA209600190EF1 /* UserDot.swift in Sources */,
 				1471ADF51DF2D61C006852AD /* AppDelegate.swift in Sources */,
 				145D82A21DF41A35003A3B31 /* Locations.swift in Sources */,
 				145D82AA1DF46AF1003A3B31 /* Float+RoundToPlaces.swift in Sources */,
@@ -310,10 +322,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = WUZ75YU9B9;
+				DEVELOPMENT_TEAM = A34Z338JKJ;
 				INFOPLIST_FILE = BluLoc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pujandave;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bluloc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -323,10 +335,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = WUZ75YU9B9;
+				DEVELOPMENT_TEAM = A34Z338JKJ;
 				INFOPLIST_FILE = BluLoc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pujandave;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bluloc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

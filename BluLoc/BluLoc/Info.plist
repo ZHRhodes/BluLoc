@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -21,11 +23,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Give me your location bitch</string>
+	<string>Please enable Location Services</string>
 	<key>NSLocationUsageDescription</key>
-	<string>yall better give it</string>
+	<string>Enable Location Services to use BLE</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>BITCH betta GIVE IT</string>
+	<string>Please enable location services to use BLE beacons</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>
